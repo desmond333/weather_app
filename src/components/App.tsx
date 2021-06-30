@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Link, BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
 import styles from '../styles/App.module.css';
 
@@ -43,27 +44,47 @@ const App: React.FC = () => {
         setWeatherItems(weatherItems.filter(item => item.id !== id))
     }
     return (
-        <div className={styles.container}>
-            <div className={styles.app}>
-                <div className={styles.app__titles}>
-                    <div className={styles.app__titlesItem}>Город</div>
-                    <div className={styles.app__titlesItem}>Температура</div>
-                    <div className={styles.app__titlesItem}>Осадки</div>
+        <Router>
+            <div className={styles.container}>
+                <div className={styles.app}>
+                    <div className={styles.app__header}>
+                        <Link to="/usestate">
+                            <div className={styles.app__headerItem}>
+                                Используем хук useState
+                            </div>
+                        </Link>
+                        <Link to="/redux">
+                            <div className={styles.app__headerItem}>
+                                Используем redux
+                            </div>
+                        </Link>
+                    </div>
+                    <div className={styles.app__body}>
+                        <Switch>
+                            <Route path="/usestate">
+                                <h1>Используем useState</h1>
+                                <div className={styles.app__addArea}>
+                                    <input className={styles.app__input} value={cityValue}
+                                           onChange={e => setCityValue(e.target.value)}
+                                           placeholder={'Город'}/>
+                                    <input className={styles.app__input} value={temperatureValue}
+                                           onChange={e => setTemperatureValue(e.target.value)}
+                                           placeholder={'Температура'}/>
+                                    <input className={styles.app__input} value={rainfallValue}
+                                           onChange={e => setRainfallValue(e.target.value)}
+                                           placeholder={'Осадки'}/>
+                                    <button onClick={createWeatherItem}>Добавить</button>
+                                </div>
+                                <ListItems weatherItems={weatherItems} deleteWeatherItem={deleteWeatherItem}/>
+                            </Route>
+                            <Route path="/redux">
+                                <h1>Используем redux</h1>
+                            </Route>
+                        </Switch>
+                    </div>
                 </div>
-                <div className={styles.app__addArea}>
-                    <input className={styles.app__input} value={cityValue} onChange={e => setCityValue(e.target.value)}
-                           placeholder={'Город'}/>
-                    <input className={styles.app__input} value={temperatureValue}
-                           onChange={e => setTemperatureValue(e.target.value)}
-                           placeholder={'Температура'}/>
-                    <input className={styles.app__input} value={rainfallValue}
-                           onChange={e => setRainfallValue(e.target.value)}
-                           placeholder={'Осадки'}/>
-                    <button onClick={createWeatherItem}>Добавить</button>
-                </div>
-                <ListItems weatherItems={weatherItems} deleteWeatherItem={deleteWeatherItem}/>
             </div>
-        </div>
+        </Router>
     );
 }
 

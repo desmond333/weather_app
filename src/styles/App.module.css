@@ -13,17 +13,23 @@
     box-shadow:  7px 7px 15px 0px rgba(50, 50, 50, 0.75);
     border-radius: 20px;
     display: grid;
-    grid-template-rows: 1fr 1fr 8fr;
+    grid-template-rows: 1fr 8fr;
 }
 
-.app__titles, .app__addArea {
+.app__header, .app__addArea {
     max-width: 100%;
     height: 60%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
+    grid-template-columns: 1fr 1fr;
 }
 .app__addArea {
     grid-template-columns: 1.5fr 1.5fr 1.5fr 1fr;
+}
+.app__headerItem {
+    font-size: 18px;
+    border: solid 1px blue;
+    text-decoration: none;
 }
 .app__input {
     width: 100%;
@@ -33,10 +39,4 @@
     outline:0;
     background: black;
     color: white;
-}
-
-.app__titlesItem {
-    padding-left: 1vh;
-    font-size: 18px;
-    border: solid 1px blue;
 }
