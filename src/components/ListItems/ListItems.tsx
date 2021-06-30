@@ -6,13 +6,18 @@ import {weatherItemType} from "../../types/data";
 
 interface ListItemsProps {
     weatherItems: weatherItemType[];
+    deleteWeatherItem: (id: number) => void;
 }
 
 const ListItems: React.FC<ListItemsProps> = (props) => {
+    const {weatherItems, deleteWeatherItem} = props
     return (
         <div className={styles.app__listItems}>
-            {props.weatherItems.map((item) => {
-                return <WeatherItem key={item.id} {...item}/>
+            {weatherItems.map((item) => {
+                return <WeatherItem
+                    key={item.id}
+                    deleteWeatherItem={deleteWeatherItem}
+                    {...item}/>
             })}
         </div>
     )

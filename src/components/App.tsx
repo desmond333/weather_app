@@ -26,7 +26,7 @@ const App: React.FC = () => {
         temperature: '30 degrees',
         rainfall: 'none',
     }])
-    const createWeatherItem = () => {
+    const createWeatherItem = (): void => {
         if (cityValue && temperatureValue && rainfallValue) {
             setWeatherItems([...weatherItems, {
                 id: Date.now(),
@@ -34,7 +34,13 @@ const App: React.FC = () => {
                 temperature: temperatureValue,
                 rainfall: rainfallValue,
             }])
+            setCityValue('')
+            setTemperatureValue('')
+            setRainfallValue('')
         }
+    }
+    const deleteWeatherItem = (id: number): void => {
+        setWeatherItems(weatherItems.filter(item => item.id !== id))
     }
     return (
         <div className={styles.container}>
@@ -45,15 +51,17 @@ const App: React.FC = () => {
                     <div className={styles.app__titlesItem}>Осадки</div>
                 </div>
                 <div className={styles.app__addArea}>
-                    <input className={styles.app__input} onChange={e => setCityValue(e.target.value)}
+                    <input className={styles.app__input} value={cityValue} onChange={e => setCityValue(e.target.value)}
                            placeholder={'Город'}/>
-                    <input className={styles.app__input} onChange={e => setTemperatureValue(e.target.value)}
+                    <input className={styles.app__input} value={temperatureValue}
+                           onChange={e => setTemperatureValue(e.target.value)}
                            placeholder={'Температура'}/>
-                    <input className={styles.app__input} onChange={e => setRainfallValue(e.target.value)}
+                    <input className={styles.app__input} value={rainfallValue}
+                           onChange={e => setRainfallValue(e.target.value)}
                            placeholder={'Осадки'}/>
                     <button onClick={createWeatherItem}>Добавить</button>
                 </div>
-                <ListItems weatherItems={weatherItems}/>
+                <ListItems weatherItems={weatherItems} deleteWeatherItem={deleteWeatherItem}/>
             </div>
         </div>
     );
