@@ -7,11 +7,12 @@ import {weatherItemType} from '../../../types/data'
 interface WeatherItemProps extends weatherItemType {}
 
 const WeatherItem: React.FC<WeatherItemProps> = (props) => {
+    const {id, city, temperature, rainfall} = props
     return (
         <div className={styles.weather_item}>
-            <div>{props.city}</div>
-            <div>{props.temperature}</div>
-            <div>{props.rainfall}</div>
+            <div>{city}</div>
+            <div>{temperature}</div>
+            <div>{rainfall}</div>
         </div>
     )
 }

@@ -12,8 +12,7 @@ const ListItems: React.FC<ListItemsProps> = (props) => {
     return (
         <div className={styles.app__listItems}>
             {props.weatherItems.map((item) => {
-                return <WeatherItem key={item.id} id={item.id} city={item.city} temperature={item.temperature}
-                                    rainfall={item.rainfall}/>
+                return <WeatherItem key={item.id} {...item}/>
             })}
         </div>
     )
