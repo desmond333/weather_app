@@ -1,4 +1,4 @@
-export interface weatherItem {
+export interface weatherItemType {
     id: number,
     city: string,
     temperature: string,

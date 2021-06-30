@@ -1,14 +1,16 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 
 import styles from '../styles/App.module.css';
 
-import {weatherItem} from '../types/data'
+import {weatherItemType} from '../types/data'
+
+import {ListItems} from "./ListItems/ListItems";
 
 const App: React.FC = () => {
     const [cityValue, setCityValue] = useState('')
     const [temperatureValue, setTemperatureValue] = useState('')
     const [rainfallValue, setRainfallValue] = useState('')
-    const [weatherItems, setWeatherItems] = useState<weatherItem[]>([{
+    const [weatherItems, setWeatherItems] = useState<weatherItemType[]>([{
         id: 1,
         city: 'Moscow',
         temperature: '25 degrees',
@@ -21,7 +23,7 @@ const App: React.FC = () => {
     }, {
         id: 3,
         city: 'krasnodar',
-        temperature: '1000 degrees',
+        temperature: '30 degrees',
         rainfall: 'none',
     }])
     const createWeatherItem = () => {
@@ -51,11 +53,7 @@ const App: React.FC = () => {
                            placeholder={'Осадки'}/>
                     <button onClick={createWeatherItem}>Добавить</button>
                 </div>
-                <div className={styles.app__createdItems}>
-                    {weatherItems.map((weatherItem) => {
-                        return <div>{weatherItem.city}</div>
-                    })}
-                </div>
+                <ListItems weatherItems={weatherItems}/>
             </div>
         </div>
     );
