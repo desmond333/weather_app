@@ -1,0 +1,16 @@
+.app {
+    min-height: 100vh;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app__body {
+    height: 70vh;
+    width: 70vh;
+    box-shadow:  7px 7px 15px 0px rgba(50, 50, 50, 0.75);
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
