@@ -1,0 +1,42 @@
+.container {
+    min-height: 100vh;
+    padding: 5vh 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app {
+    height: 800px;
+    width: 500px;
+    padding: 20px;
+    box-shadow:  7px 7px 15px 0px rgba(50, 50, 50, 0.75);
+    border-radius: 20px;
+    display: grid;
+    grid-template-rows: 1fr 1fr 8fr;
+}
+
+.app__titles, .app__addArea {
+    max-width: 100%;
+    height: 60%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.app__addArea {
+    grid-template-columns: 1.5fr 1.5fr 1.5fr 1fr;
+}
+.app__input {
+    width: 100%;
+    padding-left: 1vh;
+}
+.app__input:focus{
+    outline:0;
+    background: black;
+    color: white;
+}
+
+.app__titlesItem {
+    padding-left: 1vh;
+    font-size: 18px;
+    border: solid 1px blue;
+}
