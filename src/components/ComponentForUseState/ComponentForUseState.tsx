@@ -39,6 +39,21 @@ const ComponentForUseState: React.FC = () => {
     const deleteWeatherItem = (id: number): void => {
         setWeatherItems(weatherItems.filter(item => item.id !== id))
     }
+    const changeWeatherItem = (id: number, type: string, value:string): void => {
+        switch (type) {
+            case 'city':
+                return setWeatherItems([...weatherItems.map<any>((item)=>{
+                    debugger
+                    if (item.id === id) {
+                        return {...item, city: value}
+                    }
+                }) ])
+            case 'temperature':
+                return console.log('change temperature')
+            case 'rainfall':
+                return console.log('change rainfall')
+        }
+    }
     return (
         <div className={styles.app__useState}>
             <h1 className={styles.app__bodyTitle}>Используем useState</h1>
@@ -54,7 +69,7 @@ const ComponentForUseState: React.FC = () => {
                        placeholder={'Осадки'}/>
                 <button onClick={createWeatherItem}>Добавить</button>
             </div>
-            <ListItems weatherItems={weatherItems} deleteWeatherItem={deleteWeatherItem}/>
+            <ListItems weatherItems={weatherItems} changeWeatherItem={changeWeatherItem} deleteWeatherItem={deleteWeatherItem}/>
         </div>
     )
 }
