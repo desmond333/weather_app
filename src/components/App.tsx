@@ -3,7 +3,7 @@ import {Link, BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
 import styles from '../styles/App.module.css';
 
-import {weatherItemType} from '../types/data'
+import {weatherItemType} from '../types/weatherItemType'
 
 import {ListItems} from "./ListItems/ListItems";
 

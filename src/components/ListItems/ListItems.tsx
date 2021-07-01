@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './ListItems.module.css';
 import {WeatherItem} from "./WeatherItem/WeatherItem";
-import {weatherItemType} from "../../types/data";
+import {weatherItemType} from "../../types/weatherItemType";
 
 interface ListItemsProps {
     weatherItems: weatherItemType[];
