@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './WeatherItem.module.css';
 
-import {weatherItemType} from '../../../types/weatherItemType'
+import {weatherItemType} from '../../../../types/weatherItemType'
 
 interface WeatherItemProps extends weatherItemType {
     deleteWeatherItem: (id: number) => void;
