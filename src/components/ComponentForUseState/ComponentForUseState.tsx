@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {ListItems} from "./ListItems/ListItems";
 import styles from "./ComponentForUseState.module.css"
 import {weatherItemType} from "../../types/weatherItemType";
@@ -43,15 +43,25 @@ const ComponentForUseState: React.FC = () => {
         switch (type) {
             case 'city':
                 return setWeatherItems([...weatherItems.map<any>((item)=>{
-                    debugger
                     if (item.id === id) {
                         return {...item, city: value}
                     }
-                }) ])
+                    return item
+                })])
             case 'temperature':
-                return console.log('change temperature')
+                return setWeatherItems([...weatherItems.map<any>((item)=>{
+                    if (item.id === id) {
+                        return {...item, temperature: value}
+                    }
+                    return item
+                })])
             case 'rainfall':
-                return console.log('change rainfall')
+                return setWeatherItems([...weatherItems.map<any>((item)=>{
+                    if (item.id === id) {
+                        return {...item, rainfall: value}
+                    }
+                    return item
+                })])
         }
     }
     return (

@@ -43,11 +43,50 @@ const weatherItemsReducer = (state = initialState,
                 ]
             }
         case weatherItemsReducerAT_TYPES.DELETE_WEATHER_ITEM:
-            debugger
             return {
                 allWeatherItems: [
                     ...state.allWeatherItems.filter(item=> item.id !== action.id)
                 ]
+            }
+        case weatherItemsReducerAT_TYPES.CHANGE_WEATHER_ITEM:
+            switch (action.typeInp) {
+                case 'city':
+                    return {
+                        allWeatherItems: [
+                            ...state.allWeatherItems.map(item=> {
+                                if (item.id === action.id) {
+                                    return {...item, city: action.value}
+                                }
+                                return item
+                            })
+                        ]
+                    }
+                case 'temperature':
+                    return {
+                        allWeatherItems: [
+                            ...state.allWeatherItems.map(item=> {
+                                if (item.id === action.id) {
+                                    return {...item, temperature: action.value}
+                                }
+                                return item
+                            })
+                        ]
+                    }
+                case 'rainfall':
+                    return {
+                        allWeatherItems: [
+                            ...state.allWeatherItems.map(item=> {
+                                if (item.id === action.id) {
+                                    return {...item, rainfall: action.value}
+                                }
+                                return item
+                            })
+                        ]
+                    }
+                default:
+                    return {
+                        allWeatherItems: [...state.allWeatherItems]
+                    }
             }
         default:
             return state
