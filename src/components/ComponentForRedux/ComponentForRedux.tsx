@@ -1,43 +1,27 @@
 import React, {useState} from "react";
 import {ListItems} from "./ListItems/ListItems";
 import styles from "./ComponentForRedux.module.css"
-import {weatherItemType} from "../../types/weatherItemType";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {useDispatch} from "react-redux";
+import {addWeatherItemAC, deleteWeatherItemAC} from "../../store/weatherItemsAC"
 
 const ComponentForRedux: React.FC = () => {
     const [cityValue, setCityValue] = useState('')
     const [temperatureValue, setTemperatureValue] = useState('')
     const [rainfallValue, setRainfallValue] = useState('')
-    const [weatherItems, setWeatherItems] = useState<weatherItemType[]>([{
-        id: 1,
-        city: 'Moscow',
-        temperature: '25 degrees',
-        rainfall: 'some',
-    }, {
-        id: 2,
-        city: 'Saint-Petersburg',
-        temperature: '25 degrees',
-        rainfall: 'strong',
-    }, {
-        id: 3,
-        city: 'krasnodar',
-        temperature: '30 degrees',
-        rainfall: 'none',
-    }])
+    const {allWeatherItems} = useTypedSelector(state => state.weatherItems)
+    const dispatch = useDispatch()
     const createWeatherItem = (): void => {
-        if (cityValue && temperatureValue && rainfallValue) {
-            setWeatherItems([...weatherItems, {
-                id: Date.now(),
-                city: cityValue,
-                temperature: temperatureValue,
-                rainfall: rainfallValue,
-            }])
-            setCityValue('')
-            setTemperatureValue('')
-            setRainfallValue('')
-        }
+        dispatch(addWeatherItemAC({
+            id: Date.now(),
+            city: cityValue,
+            temperature: temperatureValue,
+            rainfall: rainfallValue,
+        }))
     }
     const deleteWeatherItem = (id: number): void => {
-        setWeatherItems(weatherItems.filter(item => item.id !== id))
+        debugger
+        dispatch(deleteWeatherItemAC(id))
     }
     return (
         <div className={styles.app__useState}>
@@ -54,7 +38,7 @@ const ComponentForRedux: React.FC = () => {
                        placeholder={'Осадки'}/>
                 <button onClick={createWeatherItem}>Добавить</button>
             </div>
-            <ListItems weatherItems={weatherItems} deleteWeatherItem={deleteWeatherItem}/>
+            <ListItems weatherItems={allWeatherItems} deleteWeatherItem={deleteWeatherItem}/>
         </div>
     )
 }

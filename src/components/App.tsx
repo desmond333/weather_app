@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
-import {Link, BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import React from 'react';
+import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom'
+import {Provider} from "react-redux";
 
 import styles from '../styles/App.module.css';
 
 import {ComponentForUseState} from "./ComponentForUseState/ComponentForUseState";
 import {ComponentForRedux} from "./ComponentForRedux/ComponentForRedux";
+import {store} from "../store/store";
 
 const App: React.FC = () => {
     return (
@@ -29,7 +31,10 @@ const App: React.FC = () => {
                                 <ComponentForUseState/>
                             </Route>
                             <Route path="/redux">
-                                <ComponentForRedux/>
+                                <Provider store={store}>
+                                    {/*Использует контекст апи, чтобы в контекст засунуть store*/}
+                                    <ComponentForRedux/>
+                                </Provider>
                             </Route>
                         </Switch>
                     </div>
