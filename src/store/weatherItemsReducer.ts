@@ -2,7 +2,7 @@ import {
     weatherItemsReducerAction,
     weatherItemsReducerAT_TYPES,
     weatherItemsReducerType
-} from "../types/for_redux/weatherItemsReducerType"
+} from "../types/weatherItemsReducerType"
 
 const initialState: weatherItemsReducerType = {
     allWeatherItems: [
@@ -27,8 +27,8 @@ const initialState: weatherItemsReducerType = {
     ],
 }
 
-const weatherItemsReducer = (state = initialState,
-                             action: weatherItemsReducerAction) => {
+export const weatherItemsReducer = (state = initialState,
+                                    action: weatherItemsReducerAction) => {
     switch (action.type) {
         case weatherItemsReducerAT_TYPES.ADD_WEATHER_ITEM:
             return {
@@ -45,52 +45,21 @@ const weatherItemsReducer = (state = initialState,
         case weatherItemsReducerAT_TYPES.DELETE_WEATHER_ITEM:
             return {
                 allWeatherItems: [
-                    ...state.allWeatherItems.filter(item=> item.id !== action.id)
+                    ...state.allWeatherItems.filter(item => item.id !== action.id)
                 ]
             }
         case weatherItemsReducerAT_TYPES.CHANGE_WEATHER_ITEM:
-            switch (action.typeInp) {
-                case 'city':
-                    return {
-                        allWeatherItems: [
-                            ...state.allWeatherItems.map(item=> {
-                                if (item.id === action.id) {
-                                    return {...item, city: action.value}
-                                }
-                                return item
-                            })
-                        ]
-                    }
-                case 'temperature':
-                    return {
-                        allWeatherItems: [
-                            ...state.allWeatherItems.map(item=> {
-                                if (item.id === action.id) {
-                                    return {...item, temperature: action.value}
-                                }
-                                return item
-                            })
-                        ]
-                    }
-                case 'rainfall':
-                    return {
-                        allWeatherItems: [
-                            ...state.allWeatherItems.map(item=> {
-                                if (item.id === action.id) {
-                                    return {...item, rainfall: action.value}
-                                }
-                                return item
-                            })
-                        ]
-                    }
-                default:
-                    return {
-                        allWeatherItems: [...state.allWeatherItems]
-                    }
+            return {
+                allWeatherItems: [
+                    ...state.allWeatherItems.map(item => {
+                        if (item.id === action.id) {
+                            return {...item, [action.typeInp]: action.value}
+                        }
+                        return item
+                    })
+                ]
             }
         default:
             return state
     }
 }
-
-export {weatherItemsReducer}

@@ -4,8 +4,9 @@ import styles from "./ComponentForRedux.module.css"
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useDispatch} from "react-redux";
 import {addWeatherItemAC, changeWeatherItemAC, deleteWeatherItemAC} from "../../store/weatherItemsAC"
+import {Map} from "react-yandex-maps";
 
-const ComponentForRedux: React.FC = () => {
+export const ComponentForRedux: React.FC = (): JSX.Element => {
     const [cityValue, setCityValue] = useState('')
     const [temperatureValue, setTemperatureValue] = useState('')
     const [rainfallValue, setRainfallValue] = useState('')
@@ -20,7 +21,6 @@ const ComponentForRedux: React.FC = () => {
         }))
     }
     const deleteWeatherItem = (id: number): void => {
-        debugger
         dispatch(deleteWeatherItemAC(id))
     }
     const changeWeatherItem = (id: number, typeInp: string, value: string): void => {
@@ -32,18 +32,18 @@ const ComponentForRedux: React.FC = () => {
             <div className={styles.app__addArea}>
                 <input className={styles.app__input} value={cityValue}
                        onChange={e => setCityValue(e.target.value)}
-                       placeholder={'Город'}/>
+                       placeholder='Город'/>
                 <input className={styles.app__input} value={temperatureValue}
                        onChange={e => setTemperatureValue(e.target.value)}
-                       placeholder={'Температура'}/>
+                       placeholder='Температура'/>
                 <input className={styles.app__input} value={rainfallValue}
                        onChange={e => setRainfallValue(e.target.value)}
-                       placeholder={'Осадки'}/>
+                       placeholder='Осадки'/>
                 <button onClick={createWeatherItem}>Добавить</button>
             </div>
-            <ListItems weatherItems={allWeatherItems} changeWeatherItem={changeWeatherItem} deleteWeatherItem={deleteWeatherItem}/>
+            <ListItems weatherItems={allWeatherItems} changeWeatherItem={changeWeatherItem}
+                       deleteWeatherItem={deleteWeatherItem}/>
+            <Map defaultState={{center: [55.75, 37.57], zoom: 9}}/>
         </div>
     )
 }
-
-export {ComponentForRedux}

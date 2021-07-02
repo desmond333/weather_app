@@ -1,4 +1,4 @@
-import {weatherItemType} from '../weatherItemType'
+import {weatherItemType} from './weatherItemType'
 
 export enum weatherItemsReducerAT_TYPES {
     ADD_WEATHER_ITEM = 'ADD_WEATHER_ITEM',

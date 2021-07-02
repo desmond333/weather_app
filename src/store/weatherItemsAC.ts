@@ -2,7 +2,7 @@ import {
     addWeatherItemAC_TYPE, changeWeatherItemAC_TYPE,
     deleteWeatherItemAC_TYPE,
     weatherItemsReducerAT_TYPES
-} from "../types/for_redux/weatherItemsReducerType";
+} from "../types/weatherItemsReducerType";
 import {weatherItemType} from "../types/weatherItemType";
 
 export const addWeatherItemAC = (weatherItem: weatherItemType): addWeatherItemAC_TYPE => ({

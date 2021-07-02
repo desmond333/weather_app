@@ -5,24 +5,35 @@ import styles from './WeatherItem.module.css';
 import {weatherItemType} from '../../../../types/weatherItemType'
 
 interface WeatherItemProps extends weatherItemType {
+    id: number
+    city: string
+    temperature: string
+    rainfall: string
     deleteWeatherItem: (id: number) => void
     changeWeatherItem: (id: number, type: string, value: string) => void
 }
 
-const WeatherItem: React.FC<WeatherItemProps> = (props) => {
+export const WeatherItem: React.FC<WeatherItemProps> = ({
+                                                            id,
+                                                            city,
+                                                            temperature,
+                                                            rainfall,
+                                                            deleteWeatherItem,
+                                                            changeWeatherItem
+                                                        }): JSX.Element => {
     const [editModeCityInp, setEditModeCityInp] = useState(false)
     const [editModeTemperatureInp, setEditModeTemperatureInp] = useState(false)
     const [editModeRainfallInp, setEditModeRainfallInp] = useState(false)
-
-    const {id, city, temperature, rainfall, deleteWeatherItem, changeWeatherItem} = props
 
     //для input city
     const activateEditModeCityInp = (): void => {
         setEditModeCityInp(true)
     }
-    const blurInputCityValue: React.FocusEventHandler<HTMLInputElement> = (e): void => {
+    const changeInputCityValue: React.FocusEventHandler<HTMLInputElement> = (e): void => {
         const value = e.target.value
         changeWeatherItem(id, 'city', value)
+    }
+    const blurInputCityValue = (): void => {
         setEditModeCityInp(false)
     }
 
@@ -30,9 +41,11 @@ const WeatherItem: React.FC<WeatherItemProps> = (props) => {
     const activateEditModeTemperatureInp = (): void => {
         setEditModeTemperatureInp(true)
     }
-    const blurInputTemperatureValue: React.FocusEventHandler<HTMLInputElement> = (e): void => {
+    const changeInputTemperatureValue: React.FocusEventHandler<HTMLInputElement> = (e): void => {
         const value = e.target.value
         changeWeatherItem(id, 'temperature', value)
+    }
+    const blurInputTemperatureValue = (): void => {
         setEditModeTemperatureInp(false)
     }
 
@@ -40,24 +53,28 @@ const WeatherItem: React.FC<WeatherItemProps> = (props) => {
     const activateEditModeRainfallInp = (): void => {
         setEditModeRainfallInp(true)
     }
-    const blurInputRainfallValue: React.FocusEventHandler<HTMLInputElement> = (e): void => {
+    const changeInputRainfallValue: React.FocusEventHandler<HTMLInputElement> = (e): void => {
         const value = e.target.value
         changeWeatherItem(id, 'rainfall', value)
+    }
+    const blurInputRainfallValue = (): void => {
         setEditModeRainfallInp(false)
     }
 
     return (
         <div className={styles.weather_item}>
             {editModeCityInp
-                ? <input autoFocus={true} onBlur={blurInputCityValue}/>
+                ? <input autoFocus value={city} onChange={changeInputCityValue} onBlur={blurInputCityValue}/>
                 : <div onClick={activateEditModeCityInp}>{city}</div>
             }
             {editModeTemperatureInp
-                ? <input autoFocus={true} onBlur={blurInputTemperatureValue}/>
+                ? <input autoFocus value={temperature} onChange={changeInputTemperatureValue}
+                         onBlur={blurInputTemperatureValue}/>
                 : <div onClick={activateEditModeTemperatureInp}>{temperature}</div>
             }
             {editModeRainfallInp
-                ? <input autoFocus={true} onBlur={blurInputRainfallValue}/>
+                ?
+                <input autoFocus value={rainfall} onChange={changeInputRainfallValue} onBlur={blurInputRainfallValue}/>
                 : <div onClick={activateEditModeRainfallInp}>{rainfall}</div>
             }
             <button onClick={() => {
@@ -67,5 +84,3 @@ const WeatherItem: React.FC<WeatherItemProps> = (props) => {
         </div>
     )
 }
-
-export {WeatherItem}

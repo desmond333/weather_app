@@ -10,19 +10,20 @@ interface ListItemsProps {
     changeWeatherItem: (id: number, typeInp: string, value: string) => void;
 }
 
-const ListItems: React.FC<ListItemsProps> = (props) => {
-    const {weatherItems, deleteWeatherItem} = props
+export const ListItems: React.FC<ListItemsProps> = ({
+                                                        weatherItems,
+                                                        deleteWeatherItem,
+                                                        changeWeatherItem
+                                                    }): JSX.Element => {
     return (
         <div className={styles.app__listItems}>
             {weatherItems.map((item) => {
                 return <WeatherItem
                     key={item.id}
                     deleteWeatherItem={deleteWeatherItem}
-                    changeWeatherItem={props.changeWeatherItem}
+                    changeWeatherItem={changeWeatherItem}
                     {...item}/>
             })}
         </div>
     )
 }
-
-export {ListItems}

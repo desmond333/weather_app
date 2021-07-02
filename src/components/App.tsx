@@ -1,14 +1,12 @@
 import React from 'react';
 import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom'
-import {Provider} from "react-redux";
 
 import styles from '../styles/App.module.css';
 
 import {ComponentForUseState} from "./ComponentForUseState/ComponentForUseState";
 import {ComponentForRedux} from "./ComponentForRedux/ComponentForRedux";
-import {store} from "../store/store";
 
-const App: React.FC = () => {
+export const App: React.FC = (): JSX.Element => {
     return (
         <Router>
             <div className={styles.container}>
@@ -31,10 +29,7 @@ const App: React.FC = () => {
                                 <ComponentForUseState/>
                             </Route>
                             <Route path="/redux">
-                                <Provider store={store}>
-                                    {/*Использует контекст апи, чтобы в контекст засунуть store*/}
-                                    <ComponentForRedux/>
-                                </Provider>
+                                <ComponentForRedux/>
                             </Route>
                         </Switch>
                     </div>
@@ -43,5 +38,3 @@ const App: React.FC = () => {
         </Router>
     );
 }
-
-export {App}

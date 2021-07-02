@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {ListItems} from "./ListItems/ListItems";
+// import {ListItems} from "./ListItems/ListItems";
 import styles from "./ComponentForUseState.module.css"
 import {weatherItemType} from "../../types/weatherItemType";
 
-const ComponentForUseState: React.FC = () => {
+export const ComponentForUseState: React.FC = (): JSX.Element => {
     const [cityValue, setCityValue] = useState('')
     const [temperatureValue, setTemperatureValue] = useState('')
     const [rainfallValue, setRainfallValue] = useState('')
@@ -40,29 +40,7 @@ const ComponentForUseState: React.FC = () => {
         setWeatherItems(weatherItems.filter(item => item.id !== id))
     }
     const changeWeatherItem = (id: number, type: string, value:string): void => {
-        switch (type) {
-            case 'city':
-                return setWeatherItems([...weatherItems.map<any>((item)=>{
-                    if (item.id === id) {
-                        return {...item, city: value}
-                    }
-                    return item
-                })])
-            case 'temperature':
-                return setWeatherItems([...weatherItems.map<any>((item)=>{
-                    if (item.id === id) {
-                        return {...item, temperature: value}
-                    }
-                    return item
-                })])
-            case 'rainfall':
-                return setWeatherItems([...weatherItems.map<any>((item)=>{
-                    if (item.id === id) {
-                        return {...item, rainfall: value}
-                    }
-                    return item
-                })])
-        }
+
     }
     return (
         <div className={styles.app__useState}>
@@ -70,18 +48,16 @@ const ComponentForUseState: React.FC = () => {
             <div className={styles.app__addArea}>
                 <input className={styles.app__input} value={cityValue}
                        onChange={e => setCityValue(e.target.value)}
-                       placeholder={'Город'}/>
+                       placeholder='Город'/>
                 <input className={styles.app__input} value={temperatureValue}
                        onChange={e => setTemperatureValue(e.target.value)}
-                       placeholder={'Температура'}/>
+                       placeholder='Температура'/>
                 <input className={styles.app__input} value={rainfallValue}
                        onChange={e => setRainfallValue(e.target.value)}
-                       placeholder={'Осадки'}/>
+                       placeholder='Осадки'/>
                 <button onClick={createWeatherItem}>Добавить</button>
             </div>
-            <ListItems weatherItems={weatherItems} changeWeatherItem={changeWeatherItem} deleteWeatherItem={deleteWeatherItem}/>
+            {/*<ListItems weatherItems={weatherItems} changeWeatherItem={changeWeatherItem} deleteWeatherItem={deleteWeatherItem}/>*/}
         </div>
     )
 }
-
-export {ComponentForUseState}
