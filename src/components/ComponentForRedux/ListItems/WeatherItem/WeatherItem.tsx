@@ -7,19 +7,23 @@ import {weatherItemType} from '../../../../types/weatherItemType'
 interface WeatherItemProps extends weatherItemType {
     id: number
     city: string
+    coordinats: [number, number]
     temperature: string
     rainfall: string
     deleteWeatherItem: (id: number) => void
     changeWeatherItem: (id: number, type: string, value: string) => void
+    openWeatherItemYMap: (isOpen: boolean, coordinats: any) => void
 }
 
 export const WeatherItem: React.FC<WeatherItemProps> = ({
                                                             id,
                                                             city,
+                                                            coordinats,
                                                             temperature,
                                                             rainfall,
                                                             deleteWeatherItem,
-                                                            changeWeatherItem
+                                                            changeWeatherItem,
+                                                            openWeatherItemYMap
                                                         }): JSX.Element => {
     const [editModeCityInp, setEditModeCityInp] = useState(false)
     const [editModeTemperatureInp, setEditModeTemperatureInp] = useState(false)
@@ -28,6 +32,7 @@ export const WeatherItem: React.FC<WeatherItemProps> = ({
     //для input city
     const activateEditModeCityInp = (): void => {
         setEditModeCityInp(true)
+        openWeatherItemYMap(true, coordinats)
     }
     const changeInputCityValue: React.FocusEventHandler<HTMLInputElement> = (e): void => {
         const value = e.target.value
@@ -35,6 +40,7 @@ export const WeatherItem: React.FC<WeatherItemProps> = ({
     }
     const blurInputCityValue = (): void => {
         setEditModeCityInp(false)
+        openWeatherItemYMap(false, coordinats)
     }
 
     //для input Temperature

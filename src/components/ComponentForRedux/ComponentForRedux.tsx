@@ -10,22 +10,36 @@ export const ComponentForRedux: React.FC = (): JSX.Element => {
     const [cityValue, setCityValue] = useState('')
     const [temperatureValue, setTemperatureValue] = useState('')
     const [rainfallValue, setRainfallValue] = useState('')
+    const [isShowYMap, setIsShowYMap] = useState(false)
+    const [coordinatsSelWeatherItem, setCoordinatsSelWeatherItem] = useState([0, 0])
+
     const {allWeatherItems} = useTypedSelector(state => state.weatherItems)
+
     const dispatch = useDispatch()
+
     const createWeatherItem = (): void => {
         dispatch(addWeatherItemAC({
             id: Date.now(),
             city: cityValue,
+            coordinats: [0, 0],
             temperature: temperatureValue,
             rainfall: rainfallValue,
         }))
     }
+
     const deleteWeatherItem = (id: number): void => {
         dispatch(deleteWeatherItemAC(id))
     }
+
     const changeWeatherItem = (id: number, typeInp: string, value: string): void => {
         dispatch(changeWeatherItemAC(id, typeInp, value))
     }
+
+    const openWeatherItemYMap = (isOpen: boolean, coordinats: any): void => {
+        setIsShowYMap(isOpen)
+        setCoordinatsSelWeatherItem(coordinats)
+    }
+
     return (
         <div className={styles.app__useState}>
             <h1 className={styles.app__bodyTitle}>Используем redux</h1>
@@ -42,8 +56,8 @@ export const ComponentForRedux: React.FC = (): JSX.Element => {
                 <button onClick={createWeatherItem}>Добавить</button>
             </div>
             <ListItems weatherItems={allWeatherItems} changeWeatherItem={changeWeatherItem}
-                       deleteWeatherItem={deleteWeatherItem}/>
-            <Map defaultState={{center: [55.75, 37.57], zoom: 9}}/>
+                       deleteWeatherItem={deleteWeatherItem} openWeatherItemYMap={openWeatherItemYMap}/>
+            {isShowYMap && <Map defaultState={{center: coordinatsSelWeatherItem, zoom: 9}}/>}
         </div>
     )
 }

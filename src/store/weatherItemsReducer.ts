@@ -9,18 +9,21 @@ const initialState: weatherItemsReducerType = {
         {
             id: 1,
             city: 'Moscow',
+            coordinats: [55.75, 37.57],
             temperature: '25 degrees',
             rainfall: 'some',
         },
         {
             id: 2,
             city: 'Saint-Petersburg',
+            coordinats: [59.94, 30.31],
             temperature: '25 degrees',
             rainfall: 'strong',
         },
         {
             id: 3,
-            city: 'krasnodar',
+            city: 'Krasnodar',
+            coordinats: [45.04, 38.97],
             temperature: '300 degrees',
             rainfall: 'none',
         },
