@@ -11,21 +11,21 @@ export const ComponentForUseState: React.FC = (): JSX.Element => {
         {
             id: 1,
             city: 'Moscow',
-            coordinats: [55.75, 37.57],
+            coordinates: [55.75, 37.57],
             temperature: '25 degrees',
             rainfall: 'some',
         },
         {
             id: 2,
             city: 'Saint-Petersburg',
-            coordinats: [59.94, 30.31],
+            coordinates: [59.94, 30.31],
             temperature: '25 degrees',
             rainfall: 'strong',
         },
         {
             id: 3,
             city: 'Krasnodar',
-            coordinats: [45.04, 38.97],
+            coordinates: [45.04, 38.97],
             temperature: '300 degrees',
             rainfall: 'none',
         },])
@@ -34,7 +34,7 @@ export const ComponentForUseState: React.FC = (): JSX.Element => {
             setWeatherItems([...weatherItems, {
                 id: Date.now(),
                 city: cityValue,
-                coordinats: [0, 0],
+                coordinates: [0, 0],
                 temperature: temperatureValue,
                 rainfall: rainfallValue,
             }])

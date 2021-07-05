@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import styles from './WeatherItem.module.css';
 
@@ -7,41 +7,68 @@ import {weatherItemType} from '../../../../types/weatherItemType'
 interface WeatherItemProps extends weatherItemType {
     id: number
     city: string
-    coordinats: [number, number]
+    coordinates: [number, number]
     temperature: string
     rainfall: string
     deleteWeatherItem: (id: number) => void
     changeWeatherItem: (id: number, type: string, value: string) => void
-    openWeatherItemYMap: (isOpen: boolean, coordinats: any) => void
+    showWeatherItemYMap: (queryString: string) => void
 }
 
 export const WeatherItem: React.FC<WeatherItemProps> = ({
                                                             id,
                                                             city,
-                                                            coordinats,
+                                                            coordinates,
                                                             temperature,
                                                             rainfall,
                                                             deleteWeatherItem,
                                                             changeWeatherItem,
-                                                            openWeatherItemYMap
+                                                            showWeatherItemYMap
                                                         }): JSX.Element => {
     const [editModeCityInp, setEditModeCityInp] = useState(false)
     const [editModeTemperatureInp, setEditModeTemperatureInp] = useState(false)
     const [editModeRainfallInp, setEditModeRainfallInp] = useState(false)
+    const [visibleCityPopup, setVisibleCityPopup] = useState(false)
+    const [eventCityDiv, setEventCityDiv] = useState<any>(null)
 
-    //для input city
-    const activateEditModeCityInp = (): void => {
-        setEditModeCityInp(true)
-        openWeatherItemYMap(true, coordinats)
+    const popupRef = useRef<HTMLDivElement>(null)
+
+    //при клике на div city
+    const onClickDivCity: React.MouseEventHandler<HTMLDivElement> = (e): void => {
+        setVisibleCityPopup(true)
+        setEventCityDiv(e)
     }
+    //для позиционирования cityPopup относительно курсора
+    useEffect(() => {
+        if (popupRef.current) {
+            popupRef.current.style.top = eventCityDiv.clientY + 'px';
+            popupRef.current.style.left = eventCityDiv.clientX + 'px';
+        }
+    }, [eventCityDiv])
+    //чтобы отменить вызов cityPopup
+    const onCancelCityPopup = (): void => {
+        setVisibleCityPopup(false)
+    }
+    //для начала редактирования названия города
+    const activateEditModeCityInp = (): void => {
+        setVisibleCityPopup(false)
+        setEditModeCityInp(true)
+    }
+    //для того чтобы показать город на карте
+    const onShowWeatherItemYMap = (): void => {
+        setVisibleCityPopup(false)
+        showWeatherItemYMap(city)
+    }
+    //для установки нового названия города
     const changeInputCityValue: React.FocusEventHandler<HTMLInputElement> = (e): void => {
         const value = e.target.value
         changeWeatherItem(id, 'city', value)
     }
+    //для окончания редактирования названия города
     const blurInputCityValue = (): void => {
         setEditModeCityInp(false)
-        openWeatherItemYMap(false, coordinats)
     }
+
 
     //для input Temperature
     const activateEditModeTemperatureInp = (): void => {
@@ -68,10 +95,20 @@ export const WeatherItem: React.FC<WeatherItemProps> = ({
     }
 
     return (
-        <div className={styles.weather_item}>
-            {editModeCityInp
-                ? <input autoFocus value={city} onChange={changeInputCityValue} onBlur={blurInputCityValue}/>
-                : <div onClick={activateEditModeCityInp}>{city}</div>
+        <div className={styles.weather__item}>
+            {!editModeCityInp
+                ? <div onClick={onClickDivCity}>{city}</div>
+                : <input autoFocus value={city} onChange={changeInputCityValue} onBlur={blurInputCityValue}/>
+            }
+            {visibleCityPopup && <div className={styles.popupContainer}>
+                <div className={styles.weather__itemPopup} ref={popupRef}>
+                    <div onClick={activateEditModeCityInp} style={{borderBottom: "2px solid white"}} >Изменить название
+                        города
+                    </div>
+                    <div onClick={onShowWeatherItemYMap} style={{borderBottom: "2px solid white"}}>Посмотреть на карте</div>
+                    <div onClick={onCancelCityPopup}>Отмена</div>
+                </div>
+            </div>
             }
             {editModeTemperatureInp
                 ? <input autoFocus value={temperature} onChange={changeInputTemperatureValue}
@@ -80,7 +117,8 @@ export const WeatherItem: React.FC<WeatherItemProps> = ({
             }
             {editModeRainfallInp
                 ?
-                <input autoFocus value={rainfall} onChange={changeInputRainfallValue} onBlur={blurInputRainfallValue}/>
+                <input autoFocus value={rainfall} onChange={changeInputRainfallValue}
+                       onBlur={blurInputRainfallValue}/>
                 : <div onClick={activateEditModeRainfallInp}>{rainfall}</div>
             }
             <button onClick={() => {

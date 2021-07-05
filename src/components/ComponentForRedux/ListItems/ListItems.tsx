@@ -8,14 +8,14 @@ interface ListItemsProps {
     weatherItems: weatherItemType[]
     deleteWeatherItem: (id: number) => void
     changeWeatherItem: (id: number, typeInp: string, value: string) => void
-    openWeatherItemYMap: (isOpen: boolean, coordinats: any) => void
+    showWeatherItemYMap: (queryString: string) => void
 }
 
 export const ListItems: React.FC<ListItemsProps> = ({
                                                         weatherItems,
                                                         deleteWeatherItem,
                                                         changeWeatherItem,
-                                                        openWeatherItemYMap,
+                                                        showWeatherItemYMap,
                                                     }): JSX.Element => {
     return (
         <div className={styles.app__listItems}>
@@ -24,7 +24,7 @@ export const ListItems: React.FC<ListItemsProps> = ({
                     key={item.id}
                     deleteWeatherItem={deleteWeatherItem}
                     changeWeatherItem={changeWeatherItem}
-                    openWeatherItemYMap={openWeatherItemYMap}
+                    showWeatherItemYMap={showWeatherItemYMap}
                     {...item}/>
             })}
         </div>

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {ListItems} from "./ListItems/ListItems";
 import styles from "./ComponentForRedux.module.css"
 import {useTypedSelector} from "../../hooks/useTypedSelector";
@@ -11,17 +11,38 @@ export const ComponentForRedux: React.FC = (): JSX.Element => {
     const [temperatureValue, setTemperatureValue] = useState('')
     const [rainfallValue, setRainfallValue] = useState('')
     const [isShowYMap, setIsShowYMap] = useState(false)
-    const [coordinatsSelWeatherItem, setCoordinatsSelWeatherItem] = useState([0, 0])
+    const [coordinatesSelectedWeatherItem, setCoordinatesSelectedWeatherItem] = useState([0, 0])
+    const [cityQueryString, setCityQueryString] = useState('')
+    const apiKey = '611a996d-0dd0-4327-807d-1964284093ef'
 
     const {allWeatherItems} = useTypedSelector(state => state.weatherItems)
 
     const dispatch = useDispatch()
 
+    const showWeatherItemYMap = (queryString: string): void => {
+        if (queryString) setCityQueryString(queryString)
+    }
+    //используем JavaScript API and Geocoder HTTP API для того чтобы переводить слова в координаты
+    useEffect(() => {
+        console.log(cityQueryString)
+        if (cityQueryString !== '') {
+            fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey}&format=json&geocode=${cityQueryString}&results=1`)
+                .then((res) => res.json())
+                .then((data) => {
+                    const coordinates = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')
+                    const x = Number(coordinates[1])
+                    const y = Number(coordinates[0])
+                    setCoordinatesSelectedWeatherItem([x, y])
+                    setIsShowYMap(true)
+                })
+        }
+    }, [cityQueryString])
+
     const createWeatherItem = (): void => {
         dispatch(addWeatherItemAC({
             id: Date.now(),
             city: cityValue,
-            coordinats: [0, 0],
+            coordinates: [0, 0],
             temperature: temperatureValue,
             rainfall: rainfallValue,
         }))
@@ -33,11 +54,6 @@ export const ComponentForRedux: React.FC = (): JSX.Element => {
 
     const changeWeatherItem = (id: number, typeInp: string, value: string): void => {
         dispatch(changeWeatherItemAC(id, typeInp, value))
-    }
-
-    const openWeatherItemYMap = (isOpen: boolean, coordinats: any): void => {
-        setIsShowYMap(isOpen)
-        setCoordinatsSelWeatherItem(coordinats)
     }
 
     return (
@@ -56,8 +72,10 @@ export const ComponentForRedux: React.FC = (): JSX.Element => {
                 <button onClick={createWeatherItem}>Добавить</button>
             </div>
             <ListItems weatherItems={allWeatherItems} changeWeatherItem={changeWeatherItem}
-                       deleteWeatherItem={deleteWeatherItem} openWeatherItemYMap={openWeatherItemYMap}/>
-            {isShowYMap && <Map defaultState={{center: coordinatsSelWeatherItem, zoom: 9}}/>}
+                       deleteWeatherItem={deleteWeatherItem} showWeatherItemYMap={showWeatherItemYMap}/>
+            {isShowYMap &&
+            <Map state={{center: coordinatesSelectedWeatherItem, zoom: 9}}/>
+            }
         </div>
     )
 }
