@@ -2,9 +2,8 @@ import React from 'react';
 import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom'
 
 import styles from '../styles/App.module.css';
-
-import {ComponentForUseState} from "./ComponentForUseState/ComponentForUseState";
 import {ComponentForRedux} from "./ComponentForRedux/ComponentForRedux";
+import {ComponentForUseReducer} from "./ComponentForUseReducer/ComponentForUseReducer";
 
 export const App: React.FC = (): JSX.Element => {
     return (
@@ -12,9 +11,9 @@ export const App: React.FC = (): JSX.Element => {
             <div className={styles.container}>
                 <div className={styles.app}>
                     <div className={styles.app__header}>
-                        <Link to="/usestate">
+                        <Link to="/useReducer">
                             <div className={styles.app__headerItem}>
-                                Используем хук useState
+                                Используем хук useReducer
                             </div>
                         </Link>
                         <Link to="/redux">
@@ -25,8 +24,8 @@ export const App: React.FC = (): JSX.Element => {
                     </div>
                     <div className={styles.app__body}>
                         <Switch>
-                            <Route path="/usestate">
-                                <ComponentForUseState/>
+                            <Route path="/useReducer">
+                                <ComponentForUseReducer/>
                             </Route>
                             <Route path="/redux">
                                 <ComponentForRedux/>

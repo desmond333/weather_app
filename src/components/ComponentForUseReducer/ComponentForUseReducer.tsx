@@ -1,18 +1,12 @@
-import React, {useEffect, useState} from "react";
-import styles from "./ComponentForRedux.module.css"
-import {useDispatch, useSelector} from "react-redux";
-import {
-    addCoordinatesWeatherItemAC,
-    addWeatherItemAC,
-    changeWeatherItemAC,
-    deleteWeatherItemAC
-} from "../../store/weatherItemsAC"
+import React, {useEffect, useReducer, useState} from "react";
+import styles from "./ComponentForUseReducer.module.css"
+import {addCoordinatesWeatherItemAC, addWeatherItemAC, changeWeatherItemAC, deleteWeatherItemAC} from "./actionCreators"
 import {Map} from "react-yandex-maps";
 import {coordinatesType, weatherItemType} from "../../types/weatherItemType";
-import {RootState} from "../../store/store";
 import {ListItems} from "./ListItems/ListItems";
+import {init, initialState, weatherItemsReducer} from "./useReducerParametrs";
 
-export const ComponentForRedux: React.FC = (): JSX.Element => {
+export const ComponentForUseReducer: React.FC = (): JSX.Element => {
     //for edit mode
     const [cityValue, setCityValue] = useState('')
     const [temperatureValue, setTemperatureValue] = useState('')
@@ -23,9 +17,8 @@ export const ComponentForRedux: React.FC = (): JSX.Element => {
     const [coordinatesSelectedWeatherItem, setCoordinatesSelectedWeatherItem] = useState([0, 0])
     const apiKey = '611a996d-0dd0-4327-807d-1964284093ef'
 
-    const allWeatherItems: Array<weatherItemType> = useSelector((state: RootState) => state.weatherItems.allWeatherItems)
-
-    const dispatch = useDispatch()
+    const [state, dispatch] = useReducer(weatherItemsReducer, initialState, init)
+    const allWeatherItems: [weatherItemType] = state.allWeatherItems
 
     const onCreateWeatherItem = (): void => {
         dispatch(addWeatherItemAC({
@@ -84,7 +77,7 @@ export const ComponentForRedux: React.FC = (): JSX.Element => {
 
     return (
         <div className={styles.app__useState}>
-            <h1 className={styles.app__bodyTitle}>Используем redux</h1>
+            <h1 className={styles.app__bodyTitle}>Используем useReducer</h1>
             <div className={styles.app__addArea}>
                 <input className={styles.app__input} value={cityValue}
                        onChange={e => setCityValue(e.target.value)}

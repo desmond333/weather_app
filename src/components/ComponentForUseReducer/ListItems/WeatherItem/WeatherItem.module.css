@@ -1,0 +1,25 @@
+.weather__item {
+    display: grid;
+    position: relative;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.popupContainer{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 100%;
+    width: 100%;
+}
+
+.weather__itemPopup {
+    position: fixed;
+    z-index: 1001;
+    top: 0;
+    left: 0;
+    height: 70px;
+    width: 300px;
+    background: black;
+    color: white;
+}
