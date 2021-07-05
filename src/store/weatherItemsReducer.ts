@@ -9,21 +9,21 @@ const initialState: weatherItemsReducerType = {
         {
             id: 1,
             city: 'Moscow',
-            coordinates: [0, 0],
+            coordinates: null,
             temperature: '25 degrees',
             rainfall: 'some',
         },
         {
             id: 2,
             city: 'Saint-Petersburg',
-            coordinates: [0, 0],
+            coordinates: null,
             temperature: '25 degrees',
             rainfall: 'strong',
         },
         {
             id: 3,
             city: 'Krasnodar',
-            coordinates: [0, 0],
+            coordinates: null,
             temperature: '300 degrees',
             rainfall: 'none',
         },
@@ -31,7 +31,7 @@ const initialState: weatherItemsReducerType = {
 }
 
 export const weatherItemsReducer = (state = initialState,
-                                    action: weatherItemsReducerAction) => {
+                                    action: weatherItemsReducerAction): any => {
     switch (action.type) {
         case weatherItemsReducerAT_TYPES.ADD_WEATHER_ITEM:
             return {
@@ -57,6 +57,17 @@ export const weatherItemsReducer = (state = initialState,
                     ...state.allWeatherItems.map(item => {
                         if (item.id === action.payload.id) {
                             return {...item, [action.payload.typeInp]: action.payload.value}
+                        }
+                        return item
+                    })
+                ]
+            }
+        case weatherItemsReducerAT_TYPES.ADD_COORDINATES_WEATHER_ITEM:
+            return {
+                allWeatherItems: [
+                    ...state.allWeatherItems.map(item => {
+                        if (item.city === action.payload.cityName) {
+                            return {...item, coordinates: action.payload.coordinates}
                         }
                         return item
                     })

@@ -1,16 +1,21 @@
-import {weatherItemType} from './weatherItemType'
+import {coordinatesType, weatherItemType} from './weatherItemType'
 
 export enum weatherItemsReducerAT_TYPES {
     ADD_WEATHER_ITEM = 'ADD_WEATHER_ITEM',
     DELETE_WEATHER_ITEM = 'DELETE_WEATHER_ITEM',
     CHANGE_WEATHER_ITEM = 'CHANGE_WEATHER_ITEM',
+    ADD_COORDINATES_WEATHER_ITEM = 'ADD_COORDINATES_WEATHER_ITEM',
 }
 
 export interface weatherItemsReducerType {
     allWeatherItems: Array<weatherItemType>
 }
 
-export type weatherItemsReducerAction = addWeatherItemAC_TYPE | deleteWeatherItemAC_TYPE | changeWeatherItemAC_TYPE
+export type weatherItemsReducerAction =
+    addWeatherItemAC_TYPE
+    | deleteWeatherItemAC_TYPE
+    | changeWeatherItemAC_TYPE
+    | addCoordinatesWeatherItemAC_TYPE
 
 export interface addWeatherItemAC_TYPE {
     type: weatherItemsReducerAT_TYPES.ADD_WEATHER_ITEM
@@ -31,6 +36,14 @@ export interface changeWeatherItemAC_TYPE {
     payload: {
         id: number
         typeInp: string
-        value:string
+        value: string
+    }
+}
+
+export interface addCoordinatesWeatherItemAC_TYPE {
+    type: weatherItemsReducerAT_TYPES.ADD_COORDINATES_WEATHER_ITEM
+    payload: {
+        coordinates: coordinatesType
+        cityName: string
     }
 }

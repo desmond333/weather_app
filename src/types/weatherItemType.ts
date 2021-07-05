@@ -1,7 +1,9 @@
 export interface weatherItemType {
     id: number,
     city: string
-    coordinates: [number, number]
+    coordinates: coordinatesType
     temperature: string,
     rainfall: string
 }
+
+export type coordinatesType = [number, number] | null

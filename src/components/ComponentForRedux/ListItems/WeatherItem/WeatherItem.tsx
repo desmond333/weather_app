@@ -2,17 +2,17 @@ import React, {useEffect, useRef, useState} from 'react';
 
 import styles from './WeatherItem.module.css';
 
-import {weatherItemType} from '../../../../types/weatherItemType'
+import {coordinatesType, weatherItemType} from '../../../../types/weatherItemType'
 
 interface WeatherItemProps extends weatherItemType {
     id: number
     city: string
-    coordinates: [number, number]
+    coordinates: coordinatesType
     temperature: string
     rainfall: string
     deleteWeatherItem: (id: number) => void
     changeWeatherItem: (id: number, type: string, value: string) => void
-    showWeatherItemYMap: (queryString: string) => void
+    onSetCityQueryString: (queryString: string) => void
 }
 
 export const WeatherItem: React.FC<WeatherItemProps> = ({
@@ -23,7 +23,7 @@ export const WeatherItem: React.FC<WeatherItemProps> = ({
                                                             rainfall,
                                                             deleteWeatherItem,
                                                             changeWeatherItem,
-                                                            showWeatherItemYMap
+                                                            onSetCityQueryString
                                                         }): JSX.Element => {
     const [editModeCityInp, setEditModeCityInp] = useState(false)
     const [editModeTemperatureInp, setEditModeTemperatureInp] = useState(false)
@@ -57,7 +57,7 @@ export const WeatherItem: React.FC<WeatherItemProps> = ({
     //для того чтобы показать город на карте
     const onShowWeatherItemYMap = (): void => {
         setVisibleCityPopup(false)
-        showWeatherItemYMap(city)
+        onSetCityQueryString(city)
     }
     //для установки нового названия города
     const changeInputCityValue: React.FocusEventHandler<HTMLInputElement> = (e): void => {
