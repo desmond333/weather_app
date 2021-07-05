@@ -1,5 +1,4 @@
-import {createStore, combineReducers, applyMiddleware} from "redux"
-import logger from 'redux-logger';
+import {createStore, combineReducers} from "redux"
 
 import {weatherItemsReducer} from "./weatherItemsReducer"
 
@@ -10,4 +9,4 @@ const rootReducer = combineReducers({
 //для работы useSelector
 export type RootState = ReturnType<typeof rootReducer>
 
-export const store = createStore(rootReducer, applyMiddleware(logger));
+export const store = createStore(rootReducer);
