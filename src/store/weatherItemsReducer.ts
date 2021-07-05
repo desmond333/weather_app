@@ -38,25 +38,25 @@ export const weatherItemsReducer = (state = initialState,
                 allWeatherItems: [
                     ...state.allWeatherItems,
                     {
-                        id: action.weatherItem.id,
-                        city: action.weatherItem.city,
-                        temperature: action.weatherItem.temperature,
-                        rainfall: action.weatherItem.rainfall
+                        id: action.payload.weatherItem.id,
+                        city: action.payload.weatherItem.city,
+                        temperature: action.payload.weatherItem.temperature,
+                        rainfall: action.payload.weatherItem.rainfall
                     }
                 ]
             }
         case weatherItemsReducerAT_TYPES.DELETE_WEATHER_ITEM:
             return {
                 allWeatherItems: [
-                    ...state.allWeatherItems.filter(item => item.id !== action.id)
+                    ...state.allWeatherItems.filter(item => item.id !== action.payload.id)
                 ]
             }
         case weatherItemsReducerAT_TYPES.CHANGE_WEATHER_ITEM:
             return {
                 allWeatherItems: [
                     ...state.allWeatherItems.map(item => {
-                        if (item.id === action.id) {
-                            return {...item, [action.typeInp]: action.value}
+                        if (item.id === action.payload.id) {
+                            return {...item, [action.payload.typeInp]: action.payload.value}
                         }
                         return item
                     })
