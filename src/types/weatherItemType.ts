@@ -6,4 +6,4 @@ export interface weatherItemType {
     rainfall: string
 }
 
-export type coordinatesType = [number, number] | null
+export type coordinatesType = number[] | null

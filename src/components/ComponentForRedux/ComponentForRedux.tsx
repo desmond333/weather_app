@@ -14,16 +14,16 @@ import {ListItems} from "./ListItems/ListItems";
 
 export const ComponentForRedux: React.FC = (): JSX.Element => {
     //for edit mode
-    const [cityValue, setCityValue] = useState('')
-    const [temperatureValue, setTemperatureValue] = useState('')
-    const [rainfallValue, setRainfallValue] = useState('')
+    const [cityValue, setCityValue] = useState<string>('')
+    const [temperatureValue, setTemperatureValue] = useState<string>('')
+    const [rainfallValue, setRainfallValue] = useState<string>('')
     //for map mode
-    const [isShowYMap, setIsShowYMap] = useState(false)
-    const [cityQueryString, setCityQueryString] = useState('')
-    const [coordinatesSelectedWeatherItem, setCoordinatesSelectedWeatherItem] = useState([0, 0])
-    const apiKey = '611a996d-0dd0-4327-807d-1964284093ef'
+    const [isShowYMap, setIsShowYMap] = useState<boolean>(false)
+    const [cityAPIQueryString, setCityAPIQueryString] = useState<string>('')
+    const [coordinatesSelectedWeatherItem, setCoordinatesSelectedWeatherItem] = useState<coordinatesType>([0, 0])
+    const apiKey: string = '611a996d-0dd0-4327-807d-1964284093ef'
 
-    const allWeatherItems: Array<weatherItemType> = useSelector((state: RootState) => state.weatherItems.allWeatherItems)
+    const allWeatherItems: weatherItemType[] = useSelector((state: RootState) => state.weatherItems.allWeatherItems)
 
     const dispatch = useDispatch()
 
@@ -45,42 +45,37 @@ export const ComponentForRedux: React.FC = (): JSX.Element => {
         dispatch(changeWeatherItemAC(id, typeInp, value))
     }
 
-    const onSetCityQueryString = (queryString: string): void => {
+    const onSetCityAPIQueryString = (queryString: string): void => {
         if (queryString) {
-            allWeatherItems.forEach((item) => {
-                if (item.city === queryString && !item.coordinates) {
-                    setCityQueryString(queryString)
-                } else if (item.city === queryString && item.coordinates) {
-                    console.log('Для этого города координаты уже были добавлены с сервера')
-                    setCoordinatesSelectedWeatherItem(item.coordinates)
-                    setIsShowYMap(true)
+            allWeatherItems.forEach(item => {
+                if (item.city === queryString) {
+                    if (item.coordinates) {
+                        console.log('Для этого города координаты уже были добавлены с сервера')
+                        setCoordinatesSelectedWeatherItem(item.coordinates)
+                        setIsShowYMap(true)
+                    } else {
+                        setCityAPIQueryString(queryString)
+                    }
                 }
             })
         }
     }
-    //используем JavaScript API and Geocoder HTTP API для того чтобы переводить слова в координаты
+    //используем JavaScript API and Geocoder HTTP API для того чтобы перевести название города в его координаты, а после добавим их в state
     useEffect(() => {
-        console.log(cityQueryString)
-        if (cityQueryString) {
-            fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey}&format=json&geocode=${cityQueryString}&results=1`)
+        if (cityAPIQueryString) {
+            fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey}&format=json&geocode=${cityAPIQueryString}&results=1`)
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log('Пришли данные с сервера')
-                    const coordinates = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')
-                    const x = Number(coordinates[1])
-                    const y = Number(coordinates[0])
-                    onAddCoordinatesWeatherItem([x, y], cityQueryString)
+                    const stringCoordinatesArr = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')
+                    const numCoordinatesArr = [Number(stringCoordinatesArr[1]), Number(stringCoordinatesArr[0])]
+                    console.log('Сервер прислал координаты запрашиваемого города: ' + numCoordinatesArr)
+
+                    dispatch(addCoordinatesWeatherItemAC(numCoordinatesArr, cityAPIQueryString))
+                    setCoordinatesSelectedWeatherItem(numCoordinatesArr)
+                    setIsShowYMap(true)
                 })
         }
-    }, [cityQueryString])
-    const onAddCoordinatesWeatherItem = (coordinates: coordinatesType, cityName: string): void => {
-        if (coordinates) {
-            dispatch(addCoordinatesWeatherItemAC(coordinates, cityName))
-            setCoordinatesSelectedWeatherItem(coordinates)
-            setIsShowYMap(true)
-        }
-    }
-
+    }, [cityAPIQueryString])
 
     return (
         <div className={styles.app__useState}>
@@ -98,8 +93,8 @@ export const ComponentForRedux: React.FC = (): JSX.Element => {
                 <button onClick={onCreateWeatherItem}>Добавить</button>
             </div>
             <ListItems weatherItems={allWeatherItems} changeWeatherItem={onChangeWeatherItem}
-                       deleteWeatherItem={onDeleteWeatherItem} onSetCityQueryString={onSetCityQueryString}/>
-            {isShowYMap &&
+                       deleteWeatherItem={onDeleteWeatherItem} onSetCityQueryString={onSetCityAPIQueryString}/>
+            {isShowYMap && coordinatesSelectedWeatherItem &&
             <Map state={{center: coordinatesSelectedWeatherItem, zoom: 9}}/>
             }
         </div>
