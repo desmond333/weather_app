@@ -19,14 +19,11 @@ export const ListItems: React.FC<ListItemsProps> = ({
                                                     }): JSX.Element => {
     return (
         <div className={styles.app__listItems}>
-            {weatherItems.map((item) => {
-                return <WeatherItem
-                    key={item.id}
-                    deleteWeatherItem={deleteWeatherItem}
-                    changeWeatherItem={changeWeatherItem}
-                    onSetCityQueryString={onSetCityQueryString}
-                    {...item}/>
-            })}
+            {weatherItems.map((item) => <WeatherItem key={item.id} deleteWeatherItem={deleteWeatherItem}
+                                                     changeWeatherItem={changeWeatherItem}
+                                                     onSetCityQueryString={onSetCityQueryString}
+                                                     {...item}/>
+            )}
         </div>
     )
 }

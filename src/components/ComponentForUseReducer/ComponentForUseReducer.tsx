@@ -6,6 +6,9 @@ import {coordinatesType, weatherItemType} from "../../types/weatherItemType";
 import {ListItems} from "./ListItems/ListItems";
 import {init, initialState, weatherItemsReducer} from "./useReducerParametrs";
 
+const mapZoom: number = 9
+const apiKey: string = '611a996d-0dd0-4327-807d-1964284093ef'
+
 export const ComponentForUseReducer: React.FC = (): JSX.Element => {
     //for edit mode
     const [cityValue, setCityValue] = useState<string>('')
@@ -15,7 +18,6 @@ export const ComponentForUseReducer: React.FC = (): JSX.Element => {
     const [isShowYMap, setIsShowYMap] = useState<boolean>(false)
     const [cityAPIQueryString, setCityAPIQueryString] = useState<string>('')
     const [coordinatesSelectedWeatherItem, setCoordinatesSelectedWeatherItem] = useState<coordinatesType>([0, 0])
-    const apiKey: string = '611a996d-0dd0-4327-807d-1964284093ef'
 
     const [state, dispatch] = useReducer(weatherItemsReducer, initialState, init)
     const allWeatherItems: [weatherItemType] = state.allWeatherItems
@@ -88,7 +90,7 @@ export const ComponentForUseReducer: React.FC = (): JSX.Element => {
             <ListItems weatherItems={allWeatherItems} changeWeatherItem={onChangeWeatherItem}
                        deleteWeatherItem={onDeleteWeatherItem} onSetCityQueryString={onSetCityAPIQueryString}/>
             {isShowYMap && coordinatesSelectedWeatherItem &&
-            <Map state={{center: coordinatesSelectedWeatherItem, zoom: 9}}/>
+            <Map state={{center: coordinatesSelectedWeatherItem, zoom: mapZoom}}/>
             }
         </div>
     )

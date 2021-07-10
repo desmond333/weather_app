@@ -25,10 +25,10 @@ export const WeatherItem: React.FC<WeatherItemProps> = ({
                                                             changeWeatherItem,
                                                             onSetCityQueryString
                                                         }): JSX.Element => {
-    const [editModeCityInp, setEditModeCityInp] = useState(false)
-    const [editModeTemperatureInp, setEditModeTemperatureInp] = useState(false)
-    const [editModeRainfallInp, setEditModeRainfallInp] = useState(false)
-    const [visibleCityPopup, setVisibleCityPopup] = useState(false)
+    const [editModeCityInp, setEditModeCityInp] = useState<boolean>(false)
+    const [editModeTemperatureInp, setEditModeTemperatureInp] = useState<boolean>(false)
+    const [editModeRainfallInp, setEditModeRainfallInp] = useState<boolean>(false)
+    const [visibleCityPopup, setVisibleCityPopup] = useState<boolean>(false)
     const [eventCityDiv, setEventCityDiv] = useState<any>(null)
 
     const popupRef = useRef<HTMLDivElement>(null)
@@ -60,8 +60,8 @@ export const WeatherItem: React.FC<WeatherItemProps> = ({
         onSetCityQueryString(city)
     }
     //для установки нового названия города
-    const changeInputCityValue: React.FocusEventHandler<HTMLInputElement> = (e): void => {
-        const value = e.target.value
+    const changeInputCityValue: React.FocusEventHandler<HTMLInputElement> = ({target}): void => {
+        const {value} = target
         changeWeatherItem(id, 'city', value)
     }
     //для окончания редактирования названия города
@@ -74,8 +74,8 @@ export const WeatherItem: React.FC<WeatherItemProps> = ({
     const activateEditModeTemperatureInp = (): void => {
         setEditModeTemperatureInp(true)
     }
-    const changeInputTemperatureValue: React.FocusEventHandler<HTMLInputElement> = (e): void => {
-        const value = e.target.value
+    const changeInputTemperatureValue: React.FocusEventHandler<HTMLInputElement> = ({target}): void => {
+        const {value} = target
         changeWeatherItem(id, 'temperature', value)
     }
     const blurInputTemperatureValue = (): void => {
@@ -86,8 +86,8 @@ export const WeatherItem: React.FC<WeatherItemProps> = ({
     const activateEditModeRainfallInp = (): void => {
         setEditModeRainfallInp(true)
     }
-    const changeInputRainfallValue: React.FocusEventHandler<HTMLInputElement> = (e): void => {
-        const value = e.target.value
+    const changeInputRainfallValue: React.FocusEventHandler<HTMLInputElement> = ({target}): void => {
+        const {value} = target
         changeWeatherItem(id, 'rainfall', value)
     }
     const blurInputRainfallValue = (): void => {
