@@ -7,7 +7,10 @@ import {ListItems} from "./ListItems/ListItems";
 import {init, initialState, weatherItemsReducer} from "./useReducerParametrs";
 
 const mapZoom: number = 9
-const apiKey: string = '611a996d-0dd0-4327-807d-1964284093ef'
+const getGeocoderAPIQueryString = (cityAPIQueryString: string): string => {
+    const apiKey: string = '611a996d-0dd0-4327-807d-1964284093ef'
+    return `https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey}&format=json&geocode=${cityAPIQueryString}&results=1`
+}
 
 export const ComponentForUseReducer: React.FC = (): JSX.Element => {
     //for edit mode
@@ -55,20 +58,26 @@ export const ComponentForUseReducer: React.FC = (): JSX.Element => {
             })
         }
     }
+
     //используем JavaScript API and Geocoder HTTP API для того чтобы переводить слова в координаты
     useEffect(() => {
         if (cityAPIQueryString) {
-            fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey}&format=json&geocode=${cityAPIQueryString}&results=1`)
-                .then((res) => res.json())
-                .then((data) => {
-                    const stringCoordinatesArr = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')
+            (async () => {
+                try {
+                    const response = await fetch(getGeocoderAPIQueryString(cityAPIQueryString));
+                    const respJson = await response.json();
+                    const stringCoordinatesArr = respJson.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')
                     const numCoordinatesArr = [Number(stringCoordinatesArr[1]), Number(stringCoordinatesArr[0])]
                     console.log('Сервер прислал координаты запрашиваемого города: ' + numCoordinatesArr)
 
                     dispatch(addCoordinatesWeatherItemAC(numCoordinatesArr, cityAPIQueryString))
                     setCoordinatesSelectedWeatherItem(numCoordinatesArr)
                     setIsShowYMap(true)
-                })
+                } catch (err) {
+                    // перехватит любую ошибку в блоке try: и в fetch, и в response.json
+                    alert('Some error: ' + err);
+                }
+            })()
         }
     }, [cityAPIQueryString])
 

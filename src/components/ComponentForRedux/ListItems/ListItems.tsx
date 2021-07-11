@@ -22,7 +22,8 @@ export const ListItems: React.FC<ListItemsProps> = ({
             {weatherItems.map((item) => <WeatherItem key={item.id} deleteWeatherItem={deleteWeatherItem}
                                                      changeWeatherItem={changeWeatherItem}
                                                      onSetCityQueryString={onSetCityQueryString}
-                                                     {...item}/>
+                                                     id={item.id} city={item.city} rainfall={item.rainfall}
+                                                     temperature={item.temperature} coordinates={item.coordinates}/>
             )}
         </div>
     )

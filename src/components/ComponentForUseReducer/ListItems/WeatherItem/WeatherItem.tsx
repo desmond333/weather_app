@@ -2,12 +2,11 @@ import React, {useEffect, useRef, useState} from 'react';
 
 import styles from './WeatherItem.module.css';
 
-import {coordinatesType, weatherItemType} from '../../../../types/weatherItemType'
+import {weatherItemType} from '../../../../types/weatherItemType'
 
 interface WeatherItemProps extends weatherItemType {
     id: number
     city: string
-    coordinates: coordinatesType
     temperature: string
     rainfall: string
     deleteWeatherItem: (id: number) => void
@@ -18,7 +17,6 @@ interface WeatherItemProps extends weatherItemType {
 export const WeatherItem: React.FC<WeatherItemProps> = ({
                                                             id,
                                                             city,
-                                                            coordinates,
                                                             temperature,
                                                             rainfall,
                                                             deleteWeatherItem,
