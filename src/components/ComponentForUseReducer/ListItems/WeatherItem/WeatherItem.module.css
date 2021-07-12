@@ -4,7 +4,7 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
-.popupContainer{
+.popupContainer {
     position: fixed;
     top: 0;
     left: 0;
@@ -22,4 +22,8 @@
     width: 300px;
     background: black;
     color: white;
+}
+
+.popupContainerItem {
+    border-bottom: 2px solid white;
 }

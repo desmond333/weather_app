@@ -55,7 +55,7 @@ export const ComponentForRedux: React.FC = (): JSX.Element => {
             allWeatherItems.forEach(item => {
                 if (item.city === queryString) {
                     if (item.coordinates) {
-                        console.log('Для этого города координаты уже были добавлены с сервера')
+                        console.log('The coordinates for this city have already been added from the server')
                         setCoordinatesSelectedWeatherItem(item.coordinates)
                         setIsShowYMap(true)
                     } else {
@@ -66,25 +66,26 @@ export const ComponentForRedux: React.FC = (): JSX.Element => {
         }
     }
 
-    //используем JavaScript API and Geocoder HTTP API для того чтобы переводить слова в координаты
+    //use JavaScript API and Geocoder HTTP API to translate words into coordinates
     useEffect(() => {
         if (cityAPIQueryString) {
-            (async () => {
+            const fetchProducts = async () => {
                 try {
                     const response = await fetch(getGeocoderAPIQueryString(cityAPIQueryString));
                     const respJson = await response.json();
                     const stringCoordinatesArr = respJson.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')
                     const numCoordinatesArr = [Number(stringCoordinatesArr[1]), Number(stringCoordinatesArr[0])]
-                    console.log('Сервер прислал координаты запрашиваемого города: ' + numCoordinatesArr)
+                    console.log('Server sent the coordinates of the requested city: ' + numCoordinatesArr)
 
                     dispatch(addCoordinatesWeatherItemAC(numCoordinatesArr, cityAPIQueryString))
                     setCoordinatesSelectedWeatherItem(numCoordinatesArr)
                     setIsShowYMap(true)
                 } catch (err) {
-                    // перехватит любую ошибку в блоке try: и в fetch, и в response.json
+                    // it will intercept any error in block try: both in fetch and in response.json
                     alert('Some error: ' + err);
                 }
-            })()
+            }
+            fetchProducts()
         }
     }, [cityAPIQueryString])
 
